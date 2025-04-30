@@ -111,3 +111,11 @@ void APlayerCharacter::InitHpBar(UUserWidget* HpBarWidget)
 	HealthComponent->OnHealthChanged.AddUObject(HpBar, &UHpBarWidget::UpdateHealth);
 	HealthComponent->OnHealthChanged.Broadcast(HealthComponent->GetCurrentHealth(), HealthComponent->GetMaxHealth());
 }
+
+float APlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	HealthComponent->TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	return DamageAmount;
+}

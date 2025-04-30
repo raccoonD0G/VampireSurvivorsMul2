@@ -44,3 +44,9 @@ void UHealthComponent::OnRep_CurrentHealth()
 	OnHealthChanged.Broadcast(CurrentHealth, MaxHealth);
 }
 
+float UHealthComponent::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	SetCurrentHealth(GetCurrentHealth() - DamageAmount);
+	return DamageAmount;
+}
+

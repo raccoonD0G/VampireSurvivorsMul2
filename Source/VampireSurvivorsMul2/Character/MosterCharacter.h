@@ -17,6 +17,7 @@ public:
 	AMosterCharacter();
 
 protected:
+	virtual void PostInitializeComponents() override;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -29,6 +30,20 @@ public:
 
 // DamageSection
 private:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "ture"))
 	TObjectPtr<class USphereComponent> AttackSphere;
+
+	UPROPERTY()
+	TObjectPtr<class APlayerCharacter> CurrentTarget;
+
+	FTimerHandle DamageTimerHandle;
+
+	UFUNCTION()
+	void OnAttackOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnAttackOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	void DealDamage();
+	
 };
