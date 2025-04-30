@@ -2,7 +2,7 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "VampireSurvivorsMulPlugin",
+	"FriendlyName": "ActorOwnableUserWidgetPlugin",
 	"Description": "",
 	"Category": "Other",
 	"CreatedBy": "RaccoonD0G",
@@ -16,15 +16,9 @@
 	"Installed": false,
 	"Modules": [
 		{
-			"Name": "VampireSurvivorsMulPlugin",
+			"Name": "ActorOwnableUserWidgetPlugin",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
-		}
-	],
-	"Plugins": [
-		{
-			"Name": "AIStatePlugin",
-			"Enabled": true
 		}
 	]
 }

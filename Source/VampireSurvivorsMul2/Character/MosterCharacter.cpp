@@ -2,6 +2,7 @@
 
 
 #include "Character/MosterCharacter.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 AMosterCharacter::AMosterCharacter()
@@ -9,6 +10,7 @@ AMosterCharacter::AMosterCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	AttackSphere = CreateDefaultSubobject<USphereComponent>(TEXT("AttackSphere"));
 }
 
 // Called when the game starts or when spawned

@@ -10,6 +10,6 @@ public class VampireSurvivorsMul2 : ModuleRules
 
         PublicIncludePaths.AddRange(new string[] { "VampireSurvivorsMul2" });
         
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "VampireSurvivorsMulPlugin", "AIModule", "UMG" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "AIModule", "UMG", "VampireSurvivorsMulPlugin", "ActorOwnableUserWidgetPlugin", "AIStatePlugin", "LobbyPlugin" });
 	}
 }

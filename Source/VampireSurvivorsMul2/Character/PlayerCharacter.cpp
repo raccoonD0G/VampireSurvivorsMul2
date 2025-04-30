@@ -9,6 +9,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Widget/HpBarWidget.h"
+#include "Component/HealthComponent.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -27,7 +29,7 @@ APlayerCharacter::APlayerCharacter()
 		MoveAction = MoveActionObj.Object;
 	}
 
-
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
 }
 
 // Called when the game starts or when spawned
@@ -101,4 +103,11 @@ void APlayerCharacter::HandleMove(const FInputActionValue& Value)
 void APlayerCharacter::Server_HandleMove_Implementation(const FVector& MoveDirection)
 {
 	
+}
+
+void APlayerCharacter::InitHpBar(UUserWidget* HpBarWidget)
+{
+	UHpBarWidget* HpBar = Cast<UHpBarWidget>(HpBarWidget);
+	HealthComponent->OnHealthChanged.AddUObject(HpBar, &UHpBarWidget::UpdateHealth);
+	HealthComponent->OnHealthChanged.Broadcast(HealthComponent->GetCurrentHealth(), HealthComponent->GetMaxHealth());
 }

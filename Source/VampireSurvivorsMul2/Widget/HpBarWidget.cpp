@@ -4,6 +4,7 @@
 #include "Widget/HpBarWidget.h"
 #include "Components/ProgressBar.h"
 #include "Component/HealthComponent.h"
+#include "Interface/HpBarInterface.h"
 
 void UHpBarWidget::UpdateHealth(float NewCurrentHealth, float MaxHealth)
 {
@@ -18,11 +19,10 @@ void UHpBarWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	UHealthComponent* HealthComponent = OwningActor->GetComponentByClass<UHealthComponent>();
-	if (HealthComponent)
+	IHpBarInterface* HpBarInterface = Cast<IHpBarInterface>(OwningActor);
+	if (HpBarInterface)
 	{
-		HealthComponent->OnHealthChanged.AddUObject(this, &UHpBarWidget::UpdateHealth);
-		UpdateHealth(HealthComponent->GetCurrentHealth(), HealthComponent->GetMaxHealth());
+		HpBarInterface->InitHpBar(this);
 	}
 
 }

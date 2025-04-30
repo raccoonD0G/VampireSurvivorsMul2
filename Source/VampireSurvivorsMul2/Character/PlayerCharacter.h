@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interface/FloorCountableInterface.h"
+#include "Interface/HpBarInterface.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS(Blueprintable)
-class VAMPIRESURVIVORSMUL2_API APlayerCharacter : public ACharacter, public IFloorCountableInterface
+class VAMPIRESURVIVORSMUL2_API APlayerCharacter : public ACharacter, public IFloorCountableInterface, public IHpBarInterface
 {
 	GENERATED_BODY()
 
@@ -42,5 +43,18 @@ public:
 	UFUNCTION(Server, Reliable)
 	void Server_HandleMove(const FVector& MoveDirection);
 	void Server_HandleMove_Implementation(const FVector& MoveDirection);
-	
+
+// Health Section
+protected:
+	UPROPERTY()
+	TObjectPtr<class UHealthComponent> HealthComponent;
+
+// HpBar Section
+public:
+	virtual void InitHpBar(UUserWidget* HpBarWidget) override;
+
+// Damage Section
+protected:
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
+
 };

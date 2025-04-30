@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class VampireSurvivorsMulPlugin : ModuleRules
+public class ActorOwnableUserWidgetPlugin : ModuleRules
 {
-	public VampireSurvivorsMulPlugin(ReadOnlyTargetRules Target) : base(Target)
+	public ActorOwnableUserWidgetPlugin(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
@@ -25,7 +25,7 @@ public class VampireSurvivorsMulPlugin : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "NavigationSystem", "AIModule", "AIStatePlugin"
+				"Core", "UMG", "Slate", "SlateCore", 
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

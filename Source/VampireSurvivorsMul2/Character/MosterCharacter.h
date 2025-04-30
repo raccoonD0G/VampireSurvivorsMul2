@@ -27,4 +27,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+// DamageSection
+private:
+	UPROPERTY()
+	TObjectPtr<class USphereComponent> AttackSphere;
 };
