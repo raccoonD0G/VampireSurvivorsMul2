@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interface/FloorCountableInterface.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS(Blueprintable)
-class VAMPIRESURVIVORSMUL2_API APlayerCharacter : public ACharacter
+class VAMPIRESURVIVORSMUL2_API APlayerCharacter : public ACharacter, public IFloorCountableInterface
 {
 	GENERATED_BODY()
 

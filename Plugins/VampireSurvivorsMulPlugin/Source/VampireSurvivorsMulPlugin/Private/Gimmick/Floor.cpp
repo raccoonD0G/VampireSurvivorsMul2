@@ -40,8 +40,11 @@ void AFloor::Tick(float DeltaTime)
 
 void AFloor::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (OtherActor && OtherActor->IsA<IFloorCountableInterface>())
+	if (OtherActor)
 	{
+		IFloorCountableInterface* FloorCountableInterface = Cast<IFloorCountableInterface>(OtherActor);
+		if (!FloorCountableInterface) return;
+
 		FVector MyLocation = GetActorLocation();
 
 		TArray<FVector> Directions = {
