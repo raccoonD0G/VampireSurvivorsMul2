@@ -14,4 +14,7 @@ class VAMPIRESURVIVORSMUL2_API UHealBoxData : public UItemDataBase
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(EditAnywhere)
+	float HealAmount;
 };

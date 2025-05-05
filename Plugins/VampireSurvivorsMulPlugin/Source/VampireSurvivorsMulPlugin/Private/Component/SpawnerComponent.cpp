@@ -55,7 +55,11 @@ void USpawnerComponent::SpawnRandomActor()
 		SpawnParams.Owner = GetOwner();
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-		SpawnedActors.Add(GetWorld()->SpawnActor<AActor>(ChosenClass, ResultLocation.Location, FRotator::ZeroRotator, SpawnParams));
+		AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(ChosenClass, ResultLocation.Location, FRotator::ZeroRotator, SpawnParams);
+		if (SpawnedActor)
+		{
+			SpawnedActors.Add(SpawnedActor);
+		}
 	}
 }
 

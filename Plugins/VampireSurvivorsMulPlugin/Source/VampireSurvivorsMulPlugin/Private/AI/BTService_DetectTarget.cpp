@@ -42,7 +42,7 @@ void UBTService_DetectTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
     );
 
 #if WITH_EDITOR
-    DrawDebugSphere(World, Location, DetectRadius, 16, FColor::Green, false, 1.0f);
+    // DrawDebugSphere(World, Location, DetectRadius, 16, FColor::Green, false, 1.0f);
 #endif
 
     AActor* NearestActor = nullptr;

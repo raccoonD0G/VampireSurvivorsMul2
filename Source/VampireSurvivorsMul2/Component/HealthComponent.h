@@ -7,6 +7,7 @@
 #include "HealthComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnHealthChangedDelegate, float /*NewCurrentHealth*/, float /*CurrentMaxHealth*/);
+DECLARE_MULTICAST_DELEGATE(FOnHealthZeroDelegate);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class VAMPIRESURVIVORSMUL2_API UHealthComponent : public UActorComponent
@@ -30,6 +31,7 @@ public:
 
 public:
 	FOnHealthChangedDelegate OnHealthChanged;
+	FOnHealthZeroDelegate OnHealthZero;
 
 	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
 	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
@@ -38,6 +40,10 @@ public:
 	{
 		CurrentHealth = FMath::Clamp(NewCurrentHealth, 0, MaxHealth);
 		OnHealthChanged.Broadcast(CurrentHealth, MaxHealth);
+		if (CurrentHealth < KINDA_SMALL_NUMBER)
+		{
+			OnHealthZero.Broadcast();
+		}
 	}
 
 private:
@@ -53,4 +59,5 @@ private:
 
 public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
+	void HealHealth(float HealAmount);
 };

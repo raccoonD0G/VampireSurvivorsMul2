@@ -50,3 +50,8 @@ float UHealthComponent::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 	return DamageAmount;
 }
 
+void UHealthComponent::HealHealth(float HealAmount)
+{
+	SetCurrentHealth(GetCurrentHealth() + HealAmount);
+}
+

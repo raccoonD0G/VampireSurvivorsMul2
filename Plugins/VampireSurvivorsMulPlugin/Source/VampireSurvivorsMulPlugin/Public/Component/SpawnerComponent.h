@@ -32,7 +32,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Spawn", meta = (AllowPrivateAccess = "true"))
 	int32 MaxSpawnCount = 10;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TArray<TObjectPtr<AActor>> SpawnedActors;
 
 	float TimeSinceLastSpawn = 0.0f;

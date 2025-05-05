@@ -6,10 +6,27 @@
 #include "GameFramework/Character.h"
 #include "Interface/FloorCountableInterface.h"
 #include "Interface/HpBarInterface.h"
+#include "ItemData/ItemDataBase.h"
+#include "Interface/CharacterItemInterface.h"
 #include "PlayerCharacter.generated.h"
 
+DECLARE_DELEGATE_OneParam(FOnTakeItemDelegate, UItemDataBase* /*ItemData*/)
+
+USTRUCT()
+struct FOnTakeItemDelegateWrapper
+{
+	GENERATED_BODY()
+	
+public:
+	FOnTakeItemDelegate OnTakeItem;
+
+public:
+	FOnTakeItemDelegateWrapper() { ; }
+	FOnTakeItemDelegateWrapper(const FOnTakeItemDelegate& InTakeItemDelegate) : OnTakeItem(InTakeItemDelegate) { ; }
+};
+
 UCLASS(Blueprintable)
-class VAMPIRESURVIVORSMUL2_API APlayerCharacter : public ACharacter, public IFloorCountableInterface, public IHpBarInterface
+class VAMPIRESURVIVORSMUL2_API APlayerCharacter : public ACharacter, public IFloorCountableInterface, public IHpBarInterface, public ICharacterItemInterface
 {
 	GENERATED_BODY()
 
@@ -56,5 +73,17 @@ public:
 // Damage Section
 protected:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
+
+// Item Section
+private:
+	UPROPERTY()
+	TMap<EItemType, FOnTakeItemDelegateWrapper> TakeItemDelegateWrappers;
+
+	virtual void TakeItem(UItemDataBase* ItemData) override;
+
+	void TakeRedBox(UItemDataBase* ItemData);
+	void TakeBlueBox(UItemDataBase* ItemData);
+	void TakeGreenBox(UItemDataBase* ItemData);
+	void TakeHealBox(UItemDataBase* ItemData);
 
 };

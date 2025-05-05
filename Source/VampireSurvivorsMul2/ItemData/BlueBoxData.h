@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "ItemData/ItemDataBase.h"
-#include "BlueItemData.generated.h"
+#include "BlueBoxData.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class VAMPIRESURVIVORSMUL2_API UBlueItemData : public UItemDataBase
+class VAMPIRESURVIVORSMUL2_API UBlueBoxData : public UItemDataBase
 {
 	GENERATED_BODY()
 	

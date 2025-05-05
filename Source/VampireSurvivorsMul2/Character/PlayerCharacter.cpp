@@ -11,6 +11,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Widget/HpBarWidget.h"
 #include "Component/HealthComponent.h"
+#include "GameMode/DungeonGameMode.h"
+#include "ItemData/HealBoxData.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -30,6 +32,11 @@ APlayerCharacter::APlayerCharacter()
 	}
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
+
+	TakeItemDelegateWrappers.Add(EItemType::Red, FOnTakeItemDelegateWrapper(FOnTakeItemDelegate::CreateUObject(this, &APlayerCharacter::TakeRedBox)));
+	TakeItemDelegateWrappers.Add(EItemType::Green, FOnTakeItemDelegateWrapper(FOnTakeItemDelegate::CreateUObject(this, &APlayerCharacter::TakeGreenBox)));
+	TakeItemDelegateWrappers.Add(EItemType::Blue, FOnTakeItemDelegateWrapper(FOnTakeItemDelegate::CreateUObject(this, &APlayerCharacter::TakeBlueBox)));
+	TakeItemDelegateWrappers.Add(EItemType::Heal, FOnTakeItemDelegateWrapper(FOnTakeItemDelegate::CreateUObject(this, &APlayerCharacter::TakeHealBox)));
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +44,15 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (HasAuthority())
+	{
+		ADungeonGameMode* DungeonGameMode = Cast<ADungeonGameMode>(GetWorld()->GetAuthGameMode());
+		if (DungeonGameMode)
+		{
+			HealthComponent->OnHealthZero.AddUObject(DungeonGameMode, &ADungeonGameMode::SetLose);
+			
+		}
+	}
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
@@ -118,4 +134,42 @@ float APlayerCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 
 	HealthComponent->TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	return DamageAmount;
+}
+
+void APlayerCharacter::TakeItem(UItemDataBase* ItemData)
+{
+	TakeItemDelegateWrappers[ItemData->ItemType].OnTakeItem.Execute(ItemData);
+}
+
+void APlayerCharacter::TakeRedBox(UItemDataBase* ItemData)
+{
+	ADungeonGameMode* DungeonGameMode = Cast<ADungeonGameMode>(GetWorld()->GetAuthGameMode());
+	if (DungeonGameMode)
+	{
+		DungeonGameMode->AddRedBoxCount();
+	}
+}
+
+void APlayerCharacter::TakeBlueBox(UItemDataBase* ItemData)
+{
+	ADungeonGameMode* DungeonGameMode = Cast<ADungeonGameMode>(GetWorld()->GetAuthGameMode());
+	if (DungeonGameMode)
+	{
+		DungeonGameMode->AddBlueBoxCount();
+	}
+}
+
+void APlayerCharacter::TakeGreenBox(UItemDataBase* ItemData)
+{
+	ADungeonGameMode* DungeonGameMode = Cast<ADungeonGameMode>(GetWorld()->GetAuthGameMode());
+	if (DungeonGameMode)
+	{
+		DungeonGameMode->AddGreenBoxCount();
+	}
+}
+
+void APlayerCharacter::TakeHealBox(UItemDataBase* ItemData)
+{
+	UHealBoxData* HealBoxData = Cast<UHealBoxData>(ItemData);
+	HealthComponent->HealHealth(HealBoxData->HealAmount);
 }
